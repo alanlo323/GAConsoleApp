@@ -1,26 +1,40 @@
 ﻿using GeneticSharp.Domain.Chromosomes;
 using System;
+using System.Linq;
 
 namespace GAConsoleApp
 {
     class MyProblemChromosome : ChromosomeBase
     {
-        // TODO: Change the argument value passed to base construtor to change the length 
-        // of your chromosome.
-        public MyProblemChromosome() 
-            : base(10)
+        public static int GenesCount { get; } = 100;
+
+        IGeneable Reference { get; }
+
+        public MyProblemChromosome(in IGeneable reference)
+            : base(GenesCount)
         {
+            this.Reference = reference;
             CreateGenes();
         }
 
         public override Gene GenerateGene(int geneIndex)
         {
-            throw new NotImplementedException("// TODO: Generate a gene base on MyProblemChromosome representation.");
+            return Reference.GenerateGene(geneIndex);
         }
 
         public override IChromosome CreateNew()
         {
-            return new MyProblemChromosome();
+            var reference = Reference;
+            return new MyProblemChromosome(in reference);
         }
+
+        public string ToGenesString { get => string.Join("", GetGenes().Select(x => Convert.ToChar(x.Value))); }
+    }
+
+    public interface IGeneable
+    {
+        int GenTypes { get; }
+
+        Gene GenerateGene(int geneIndex);
     }
 }

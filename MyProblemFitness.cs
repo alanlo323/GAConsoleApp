@@ -6,9 +6,21 @@ namespace GAConsoleApp
 {
     class MyProblemFitness : IFitness
     {
+        IFitnessable Reference { get; }
+
+        public MyProblemFitness(in IFitnessable reference)
+        {
+            this.Reference = reference;
+        }
+
         public double Evaluate(IChromosome chromosome)
         {
-            throw new NotImplementedException("// TODO: Evaluate the fitness of the chromosome.");
+            return Reference.Evaluate(chromosome);
         }
+    }
+
+    public interface IFitnessable
+    {
+        double Evaluate(IChromosome chromosome);
     }
 }
