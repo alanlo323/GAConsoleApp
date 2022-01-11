@@ -4,9 +4,9 @@ using System;
 
 namespace GAConsoleApp
 {
-    class MyProblemFitness : IFitness
+    internal class MyProblemFitness : IFitness
     {
-        IFitnessable Reference { get; }
+        private IFitnessable Reference { get; }
 
         public MyProblemFitness(in IFitnessable reference)
         {

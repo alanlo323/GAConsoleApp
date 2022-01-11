@@ -12,17 +12,17 @@ using System;
 
 namespace GAConsoleApp
 {
-    class Program
+    internal class Program
     {
         /// <summary>
         /// GeneticSharp Console Application template.
         /// <see href="https://github.com/giacomelli/GeneticSharp"/>
         /// </summary>
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var game = new MostClosedNumber();
 
-            var selection = new EliteSelection();
+            var selection = new StochasticUniversalSamplingSelection();
             var crossover = new UniformCrossover(0.8f);
             var mutation = new UniformMutation(true);
 
@@ -33,25 +33,30 @@ namespace GAConsoleApp
             population.GenerationStrategy = new PerformanceGenerationStrategy();
 
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-            ga.MutationProbability = 0.1f;
             ga.Reinsertion = new ElitistReinsertion();
-            //ga.TaskExecutor = new ParallelTaskExecutor
-            //{
-            //    MinThreads = 100,
-            //    MaxThreads = 100
-            //};
             ga.Termination = new OrTermination(new TerminationBase[]
             {
-                new FitnessThresholdTermination(0.99f),
-                new TimeEvolvingTermination(TimeSpan.FromSeconds(10)),
+                new FitnessThresholdTermination(1f),
+                new TimeEvolvingTermination(TimeSpan.FromSeconds(3000)),
                 //new FitnessStagnationTermination(2500)
             });
+            ga.MutationProbability = 0.0001f;
+            var lastMsgTick = DateTime.Now;
             ga.GenerationRan += (s, e) =>
             {
-                Console.CursorLeft = 0;
-                Console.Write($"Generation {ga.GenerationsNumber}. Best fitness: {ga.BestChromosome.Fitness.Value}");
+                if (DateTime.Now >= lastMsgTick.AddMilliseconds(100))
+                {
+                    lastMsgTick = DateTime.Now;
+                    Console.CursorLeft = 0;
+                    string msg = $"Elapsed time: {ga.TimeEvolving.ToString(@"hh\:mm\:ss")} Generation: {ga.GenerationsNumber} Best fitness: {string.Format("{0:0.0000}", ga.BestChromosome.Fitness)}";
+                    drawTextProgressBar(msg, (int)(ga.BestChromosome.Fitness * 100), 100);
+                }
             };
-            //ga.GenerationRan += (s, e) => drawTextProgressBar($"Generation {ga.GenerationsNumber}. Best fitness: {ga.BestChromosome.Fitness.Value}", (int)(ga.BestChromosome.Fitness.Value * 100), 100);
+            ga.TaskExecutor = new ParallelTaskExecutor
+            {
+                MinThreads = 16,
+                MaxThreads = 16
+            };
 
             Console.WriteLine("GA running...");
             ga.Start();
@@ -64,13 +69,9 @@ namespace GAConsoleApp
 
         private static void drawTextProgressBar(string msg, int progress, int total)
         {
-            string leftMsg = $"{msg} [";
+            string leftMsg = $"[";
             //draw empty progress bar
-            Console.CursorLeft = 0;
             Console.Write(leftMsg); //start
-            Console.CursorLeft = 31 + leftMsg.Length;
-            Console.Write("]"); //end
-            Console.CursorLeft = 1;
             float onechunk = 30.0f / total;
 
             //draw filled part
@@ -91,9 +92,8 @@ namespace GAConsoleApp
             }
 
             //draw totals
-            Console.CursorLeft = 34 + leftMsg.Length;
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.Write(progress.ToString() + " of " + total.ToString() + "    "); //blanks at the end remove any excess
+            Console.Write($"] {msg}"); //blanks at the end remove any excess
         }
     }
 }

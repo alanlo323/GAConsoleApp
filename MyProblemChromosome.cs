@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace GAConsoleApp
 {
-    class MyProblemChromosome : ChromosomeBase
+    internal class MyProblemChromosome : ChromosomeBase
     {
-        public static int GenesCount { get; } = 100;
+        public static int GenesCount { get; } = 1000;
 
-        IGeneable Reference { get; }
+        private IGeneable Reference { get; }
 
         public MyProblemChromosome(in IGeneable reference)
             : base(GenesCount)
@@ -27,8 +27,6 @@ namespace GAConsoleApp
             var reference = Reference;
             return new MyProblemChromosome(in reference);
         }
-
-        public string ToGenesString { get => string.Join("", GetGenes().Select(x => Convert.ToChar(x.Value))); }
     }
 
     public interface IGeneable

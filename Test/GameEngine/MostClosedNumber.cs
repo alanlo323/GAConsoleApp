@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace GAConsoleApp.Test.GameEngine
 {
-    class MostClosedNumber : IGeneable, IFitnessable
+    internal class MostClosedNumber : IGeneable, IFitnessable
     {
-
         private static int[][] _Genes;
 
-        Random rng = new();
-        int IGeneable.GenTypes { get => 100; }
+        private Random rng = new();
+        int IGeneable.GenTypes { get => 1000; }
 
         public int[][] Genes
         {
@@ -47,6 +46,7 @@ namespace GAConsoleApp.Test.GameEngine
 
         public double Evaluate(IChromosome chromosome)
         {
+            int genTypes = ((IGeneable)this).GenTypes;
             double diff = 0;
             var genes = chromosome.GetGenes();
             for (int i = 0; i < genes.Length; i++)
@@ -55,8 +55,7 @@ namespace GAConsoleApp.Test.GameEngine
                 diff += Math.Abs(value - i);
             }
 
-            int genTypes = ((IGeneable)this).GenTypes;
-            double maxDiff = genTypes * genes.Length;
+            double maxDiff = genes.Length * (genes.Length + 1) / 2;
             double fitness = (maxDiff - diff) / maxDiff;
 
             return fitness;
