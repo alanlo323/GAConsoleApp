@@ -1,6 +1,5 @@
 ﻿using GAConsoleApp.Test.GameEngine;
 using GeneticSharp.Domain;
-using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
@@ -14,6 +13,35 @@ namespace GAConsoleApp
 {
     internal class Program
     {
+        private static void drawTextProgressBar(string msg, int progress, int total)
+        {
+            string leftMsg = $"[";
+            //draw empty progress bar
+            Console.Write(leftMsg); //start
+            float onechunk = 30.0f / total;
+
+            //draw filled part
+            int position = leftMsg.Length;
+            for (int i = 0; i < onechunk * progress; i++)
+            {
+                Console.BackgroundColor = ConsoleColor.Green;
+                Console.CursorLeft = position++;
+                Console.Write(" ");
+            }
+
+            //draw unfilled part
+            for (int i = position; i <= 30 + leftMsg.Length; i++)
+            {
+                Console.BackgroundColor = ConsoleColor.Gray;
+                Console.CursorLeft = position++;
+                Console.Write(" ");
+            }
+
+            //draw totals
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.Write($"] {msg}"); //blanks at the end remove any excess
+        }
+
         /// <summary>
         /// GeneticSharp Console Application template.
         /// <see href="https://github.com/giacomelli/GeneticSharp"/>
@@ -65,35 +93,6 @@ namespace GAConsoleApp
             Console.WriteLine($"Best solution found has fitness: {ga.BestChromosome.Fitness}");
             Console.WriteLine($"Elapsed time: {ga.TimeEvolving}");
             Console.ReadKey();
-        }
-
-        private static void drawTextProgressBar(string msg, int progress, int total)
-        {
-            string leftMsg = $"[";
-            //draw empty progress bar
-            Console.Write(leftMsg); //start
-            float onechunk = 30.0f / total;
-
-            //draw filled part
-            int position = leftMsg.Length;
-            for (int i = 0; i < onechunk * progress; i++)
-            {
-                Console.BackgroundColor = ConsoleColor.Green;
-                Console.CursorLeft = position++;
-                Console.Write(" ");
-            }
-
-            //draw unfilled part
-            for (int i = position; i <= 30 + leftMsg.Length; i++)
-            {
-                Console.BackgroundColor = ConsoleColor.Gray;
-                Console.CursorLeft = position++;
-                Console.Write(" ");
-            }
-
-            //draw totals
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.Write($"] {msg}"); //blanks at the end remove any excess
         }
     }
 }

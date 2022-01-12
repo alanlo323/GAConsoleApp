@@ -1,18 +1,15 @@
-﻿using GeneticSharp.Domain.Chromosomes;
+﻿using GAConsoleApp.GameEngine;
+using GeneticSharp.Domain.Chromosomes;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GAConsoleApp.Test.GameEngine
 {
-    internal class MostClosedNumber : IGeneable, IFitnessable
+    internal class MostClosedNumber : IGameEngine
     {
         private static int[][] _Genes;
 
         private Random rng = new();
-        int IGeneable.GenTypes { get => 1000; }
 
         public int[][] Genes
         {
@@ -43,6 +40,8 @@ namespace GAConsoleApp.Test.GameEngine
                 return _Genes;
             }
         }
+
+        int IGeneable.GenTypes { get => 1000; }
 
         public double Evaluate(IChromosome chromosome)
         {

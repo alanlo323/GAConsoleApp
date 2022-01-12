@@ -9,8 +9,4 @@
     <PackageReference Include="GeneticSharp.Extensions" Version="2.6.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ML\" />
-  </ItemGroup>
-
 </Project>
