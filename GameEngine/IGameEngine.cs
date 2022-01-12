@@ -13,8 +13,6 @@ namespace GAConsoleApp.GameEngine
 
     public interface IGeneable
     {
-        int GenTypes { get; }
-
         Gene GenerateGene(int geneIndex);
     }
 }

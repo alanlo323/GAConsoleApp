@@ -17,7 +17,7 @@ namespace GAConsoleApp.Test.GameEngine
             {
                 if (_Genes == null)
                 {
-                    int genTypes = ((IGeneable)this).GenTypes;
+                    int genTypes = GenTypes;
                     _Genes = new int[CustomChromosome.GenesCount][];
                     for (int i = 0; i < CustomChromosome.GenesCount; i++)
                     {
@@ -41,11 +41,11 @@ namespace GAConsoleApp.Test.GameEngine
             }
         }
 
-        int IGeneable.GenTypes { get => 1000; }
+        private int GenTypes { get => 1000; }
 
         public double Evaluate(IChromosome chromosome)
         {
-            int genTypes = ((IGeneable)this).GenTypes;
+            int genTypes = GenTypes;
             double diff = 0;
             var genes = chromosome.GetGenes();
             for (int i = 0; i < genes.Length; i++)

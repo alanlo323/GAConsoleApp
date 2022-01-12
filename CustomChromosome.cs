@@ -12,7 +12,7 @@ namespace GAConsoleApp
             CreateGenes();
         }
 
-        public static int GenesCount { get; } = 1000;
+        public static int GenesCount { get; } = 9;
 
         public IGeneable Reference { get; }
 
