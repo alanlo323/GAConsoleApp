@@ -4,11 +4,11 @@ using System;
 
 namespace GAConsoleApp
 {
-    internal class MyProblemFitness : IFitness
+    internal class CustomFitness : IFitness
     {
         private IFitnessable Reference { get; }
 
-        public MyProblemFitness(in IFitnessable reference)
+        public CustomFitness(in IFitnessable reference)
         {
             this.Reference = reference;
         }

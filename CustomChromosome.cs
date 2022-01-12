@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace GAConsoleApp
 {
-    internal class MyProblemChromosome : ChromosomeBase
+    internal class CustomChromosome : ChromosomeBase
     {
         public static int GenesCount { get; } = 1000;
 
         private IGeneable Reference { get; }
 
-        public MyProblemChromosome(in IGeneable reference)
+        public CustomChromosome(in IGeneable reference)
             : base(GenesCount)
         {
             this.Reference = reference;
@@ -25,7 +25,7 @@ namespace GAConsoleApp
         public override IChromosome CreateNew()
         {
             var reference = Reference;
-            return new MyProblemChromosome(in reference);
+            return new CustomChromosome(in reference);
         }
     }
 

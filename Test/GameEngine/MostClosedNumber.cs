@@ -21,8 +21,8 @@ namespace GAConsoleApp.Test.GameEngine
                 if (_Genes == null)
                 {
                     int genTypes = ((IGeneable)this).GenTypes;
-                    _Genes = new int[MyProblemChromosome.GenesCount][];
-                    for (int i = 0; i < MyProblemChromosome.GenesCount; i++)
+                    _Genes = new int[CustomChromosome.GenesCount][];
+                    for (int i = 0; i < CustomChromosome.GenesCount; i++)
                     {
                         _Genes[i] = new int[genTypes];
                         List<int> geneList = new List<int>();

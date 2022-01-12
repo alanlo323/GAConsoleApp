@@ -26,8 +26,8 @@ namespace GAConsoleApp
             var crossover = new UniformCrossover(0.8f);
             var mutation = new UniformMutation(true);
 
-            var fitness = new MyProblemFitness(game);
-            var chromosome = new MyProblemChromosome(game);
+            var fitness = new CustomFitness(game);
+            var chromosome = new CustomChromosome(game);
 
             var population = new Population(50, 70, chromosome);
             population.GenerationStrategy = new PerformanceGenerationStrategy();
